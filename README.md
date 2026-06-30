@@ -13,20 +13,17 @@
 
 - Python 3.12+
 - [Poetry](https://python-poetry.org/docs/#installation) (dependency & venv manager).
-  Poetry can also provide the interpreter: `poetry python install 3.12`
 - Desktop Chrome (for UI tests)
-- [Allure CLI](https://allurereport.org/docs/install/) — `brew install allure`
+- [Allure CLI](https://allurereport.org/docs/v2/install/)
 
 ## Setup
 
 ```bash
-poetry install            # creates .venv, installs deps, installs the pre-commit hook
+make install              # poetry install (.venv + deps) and installs the pre-commit hook
+poetry env activate
 cp .env.example .env
-# edit .env and set USER_ID=<your-user-id> (USER_ID env var has higher priority than .env)
+# edit .env and set USER_ID=<your-user-id>
 ```
-
-Run commands inside the environment with `poetry run <cmd>`, or open a shell
-with `poetry env activate` (then run `pytest` directly).
 
 ## Linting & formatting
 

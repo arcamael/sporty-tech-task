@@ -21,7 +21,6 @@ from __future__ import annotations
 
 from decimal import Decimal
 
-import allure
 import pytest
 
 from config import settings
