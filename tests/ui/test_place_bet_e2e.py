@@ -21,7 +21,7 @@ from __future__ import annotations
 
 from decimal import Decimal
 
-import allure  # noqa: F401  (used by the commented annotations below)
+import allure
 import pytest
 
 from config import settings

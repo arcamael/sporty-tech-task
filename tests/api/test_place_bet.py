@@ -14,11 +14,9 @@ import pytest
 from api.schemas import ERROR_ENVELOPE_FIELDS, ErrorCode
 from utils.money import decimal_from_float
 
-# Sentinel so "field omitted entirely" is distinguishable from an explicit null.
 OMIT = object()
 
 
-# (stake, expected_status, expected_error) — message derived from expected_error.message
 STAKE_REJECTED = [
     pytest.param(0.99, 422, ErrorCode.INVALID_STAKE_MIN, id="below-min-0.99"),
     pytest.param(100.01, 422, ErrorCode.INVALID_STAKE_MAX, id="above-max-100.01"),
