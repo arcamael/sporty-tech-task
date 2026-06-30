@@ -31,8 +31,7 @@ cp .env.example .env
 on commit via a [pre-commit](https://pre-commit.com/) hook).
 
 ```bash
-make lint     # ruff check + ruff format --check (read-only gate)
-make format   # ruff check --fix + ruff format (apply fixes)
+make format   # ruff check --fix + ruff format
 poetry run pre-commit run --all-files   # run all hooks against the whole tree
 ```
 
@@ -49,7 +48,7 @@ make test-local mark=ui   # UI tests only
 
 1. **Actions** → **"Run tests"** (triggered manually).
 2. The Allure report is published to GitHub Pages:
-   **https://arcamael.github.io/pytest-selenium-ui-api/**.
+   **https://arcamael.github.io/sporty-tech-task/**.
 
 ## Dependency management
 
