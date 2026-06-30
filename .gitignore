@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+
+# Pytest / tooling caches
+.pytest_cache/
+.ruff_cache/
+
+# Local config / secrets (user-id, base url overrides)
+.env
+
+# Test artifacts
+reports/
+screenshots/
+/.allure-results/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
