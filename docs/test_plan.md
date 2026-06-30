@@ -9,14 +9,14 @@ makes money move; if it breaks, the product's primary function is unusable. It
 also exercises the full money chain (selection → stake → payout calc → stake
 deduction → receipt), making it the highest-value single check.
 
-| # | Step | Expected Result |
-| --- | --- | --- |
-| 1 | Open the app with a valid `user-id`. | Match list shows upcoming matches; header balance shows €125.50. |
-| 2 | Click an odds button (e.g. HOME) on an upcoming match. | The selection appears in the bet slip with match, selection, and odds; exactly one active selection. |
-| 3 | Enter a valid stake within balance (e.g. €10). | Potential payout updates to `stake × odds`; "Place Bet" is enabled. |
-| 4 | Click "Place Bet". | Button shows "Placing…", then resolves to the success receipt modal. |
-| 5 | Inspect the receipt. | Shows Bet ID, match, selection, stake €10, odds at placement, payout = stake × odds, timestamp; currency EUR. |
-| 6 | Close the receipt. | Returns to the main flow with no active selection; balance is reduced by the stake (€125.50 → €115.50) and is identical in header and slip. |
+| # | Step | Expected Result                                                                                                                             |
+| --- | --- |---|
+| 1 | Open the app with a valid `user-id`. | Match list shows upcoming matches; header balance shows €120.00.                                                                            |
+| 2 | Click an odds button (e.g. HOME) on an upcoming match. | The selection appears in the bet slip with match, selection, and odds; exactly one active selection.                                        |
+| 3 | Enter a valid stake within balance (e.g. €10). | Potential payout updates to `stake × odds`; "Place Bet" is enabled.                                                                         |
+| 4 | Click "Place Bet". | Button shows "Placing…", then resolves to the success receipt modal.                                                                        |
+| 5 | Inspect the receipt. | Shows Bet ID, match, selection, stake €10, odds at placement, payout = stake × odds, timestamp; currency EUR.                               |
+| 6 | Close the receipt. | Returns to the main flow with no active selection; balance is reduced by the stake (€120.00 → €110.00) and is identical in header and slip. |
 
 ---
 
@@ -98,11 +98,3 @@ and state integrity under fault.
 | 3 | Click "Place Bet". | Shows "Placing…", then an error modal titled "Something went wrong" with a retry option; the stake is **not** deducted. |
 | 4 | Re-enable the network and click "Rebet". | Modal closes and placement retries; on success the receipt appears and the stake is deducted exactly once. |
 | 5 | (Alternative path) Click "Close" or the top-right ✕ instead of Rebet. | Modal closes, the current selection/stake is cleared, and no deduction occurs. |
-
----
-
-> **Note on boundary coverage:** explicit stake-range boundaries (min €1.00 and
-> max €100.00, and the €1.00/€1.01 spec ambiguity) are strong additional
-> boundary candidates; they are documented in `verification-checklist.md` and
-> `bug-reports.md` (BUG-011) and can be promoted into this plan if a sixth
-> boundary-focused scenario is preferred over one of the negative UI cases.
