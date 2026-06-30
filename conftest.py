@@ -21,26 +21,6 @@ from config import settings
 from utils.matches import Match, earliest_upcoming_match
 
 
-@pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    """Attach a screenshot + page source to the Allure report on UI failure."""
-    outcome = yield
-    report = outcome.get_result()
-    if report.when == "call" and report.failed:
-        driver = item.funcargs.get("driver")
-        if driver is not None:
-            allure.attach(
-                driver.get_screenshot_as_png(),
-                name="screenshot-on-failure",
-                attachment_type=allure.attachment_type.PNG,
-            )
-            allure.attach(
-                driver.page_source,
-                name="page-source",
-                attachment_type=allure.attachment_type.HTML,
-            )
-
-
 def pytest_addoption(parser: pytest.Parser) -> None:
     parser.addoption(
         "--headed",
@@ -59,12 +39,7 @@ def api() -> BettingClient:
 
 @pytest.fixture
 def reset_balance(api: BettingClient) -> None:
-    """Reset the user's balance before the test for isolation between runs.
-
-    Side-effect only — request it alongside ``api`` for a clean baseline. Reset
-    runs *before* the test so a fresh checkout / repeated run always starts from
-    the known starting balance regardless of prior bets.
-    """
+    """Reset the user's balance before the test for isolation between runs."""
     response = api.reset_balance()
     assert response.status_code == 200, f"reset-balance precondition failed: {response.status_code} {response.text}"
 
@@ -94,7 +69,7 @@ def driver(request: pytest.FixtureRequest):
 
 
 @pytest.fixture
-def verify(check):
+def verify(check, request):
     """Soft assertion that also shows up as its own Allure step."""
 
     def _verify(description: str, passed: bool) -> bool:
@@ -102,6 +77,19 @@ def verify(check):
         try:
             with allure.step(description):
                 if not passed:
+                    """Attach a screenshot + page source to the Allure report on each UI failure."""
+                    driver = request.node.funcargs.get("driver")
+                    if driver is not None:
+                        allure.attach(
+                            driver.get_screenshot_as_png(),
+                            name=f"screenshot — {description}",
+                            attachment_type=allure.attachment_type.PNG,
+                        )
+                        allure.attach(
+                            driver.page_source,
+                            name="page-source",
+                            attachment_type=allure.attachment_type.HTML,
+                        )
                     raise AssertionError(description)
         except AssertionError:
             pass
